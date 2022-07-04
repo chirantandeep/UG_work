@@ -1,0 +1,233 @@
+GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from hello...
+(gdb) list
+1	;;;;;;;;hello.asm;;;;;;;
+2	; There are three main parts of an assembly program.
+3	
+4	;//\\//PART ONE\\//\\
+5	section .data
+6	
+7	; Here data is initialised/defined.
+8	;   <var name> <type>      <value>
+9		msg	db	"hello, world",0
+10	; Variable names referes to the start address of the
+(gdb) run
+Starting program: /home/sironton/MYSPACE/assembly/proj1/hello 
+hello, world[Inferior 1 (process 8485) exited normally]
+(gdb) set disassemble-flavor intel
+No symbol "disassemble" in current context.
+(gdb) set disassembly-flavor intel
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x000000000040111d <+0>:	mov    eax,0x1
+   0x0000000000401122 <+5>:	mov    edi,0x1
+   0x0000000000401127 <+10>:	movabs rsi,0x401110
+   0x0000000000401131 <+20>:	mov    edx,0xc
+   0x0000000000401136 <+25>:	syscall 
+   0x0000000000401138 <+27>:	mov    eax,0x3c
+   0x000000000040113d <+32>:	mov    edi,0x0
+   0x0000000000401142 <+37>:	syscall 
+   0x0000000000401144 <+39>:	nop    WORD PTR cs:[rax+rax*1+0x0]
+   0x000000000040114e <+49>:	xchg   ax,ax
+End of assembler dump.
+(gdb) x/s 04x1110
+Invalid number "04x1110".
+(gdb) x/s 0x401110
+0x401110 <msg>:	"hello, world"
+(gdb) x/s 0x401111
+0x401111:	"ello, world"
+(gdb) x/s 0x4011101
+0x4011101:	<error: Cannot access memory at address 0x4011101>
+(gdb) x/c 0x401110
+0x401110 <msg>:	104 'h'
+(gdb) x/c 0x401114
+0x401114:	111 'o'
+(gdb) x/s 0x401114
+0x401114:	"o, world"
+(gdb) x/2s 0x401114
+0x401114:	"o, world"
+0x40111d <main>:	"\270\001"
+(gdb) x/2c 0x401114
+0x401114:	111 'o'	44 ','
+(gdb) x/10c 0x401114
+0x401114:	111 'o'	44 ','	32 ' '	119 'w'	111 'o'	114 'r'	108 'l'	100 'd'
+0x40111c:	0 '\000'	-72 '\270'
+(gdb) x/10c 0x401110
+0x401110 <msg>:	104 'h'	101 'e'	108 'l'	108 'l'	111 'o'	44 ','	32 ' '	119 'w'
+0x401118:	111 'o'	114 'r'
+(gdb) x/c 0x401111
+0x401111:	101 'e'
+(gdb) x/x 0x401111
+0x401111:	0x65
+(gdb) x/12x 0x401110
+0x401110 <msg>:	0x68	0x65	0x6c	0x6c	0x6f	0x2c	0x20	0x77
+0x401118:	0x6f	0x72	0x6c	0x64
+(gdb) x/13x 0x401110
+0x401110 <msg>:	0x68	0x65	0x6c	0x6c	0x6f	0x2c	0x20	0x77
+0x401118:	0x6f	0x72	0x6c	0x64	0x00
+(gdb) x/14x 0x401110
+0x401110 <msg>:	0x68	0x65	0x6c	0x6c	0x6f	0x2c	0x20	0x77
+0x401118:	0x6f	0x72	0x6c	0x64	0x00	0xb8
+(gdb) x/19x 0x401110
+0x401110 <msg>:	0x68	0x65	0x6c	0x6c	0x6f	0x2c	0x20	0x77
+0x401118:	0x6f	0x72	0x6c	0x64	0x00	0xb8	0x01	0x00
+0x401120 <main+3>:	0x00	0x00	0xbf
+(gdb) x/s &msg
+0x401110 <msg>:	"hello, world"
+(gdb) x/2x 0x004004e0
+0x4004e0:	Cannot access memory at address 0x4004e0
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x000000000040111d <+0>:	mov    eax,0x1
+   0x0000000000401122 <+5>:	mov    edi,0x1
+   0x0000000000401127 <+10>:	movabs rsi,0x401110
+   0x0000000000401131 <+20>:	mov    edx,0xc
+   0x0000000000401136 <+25>:	syscall 
+   0x0000000000401138 <+27>:	mov    eax,0x3c
+   0x000000000040113d <+32>:	mov    edi,0x0
+   0x0000000000401142 <+37>:	syscall 
+   0x0000000000401144 <+39>:	nop    WORD PTR cs:[rax+rax*1+0x0]
+   0x000000000040114e <+49>:	xchg   ax,ax
+End of assembler dump.
+(gdb) x/x 40444d
+Invalid number "40444d".
+(gdb) x/x 0x0000000000040444d
+0x40444d:	Cannot access memory at address 0x40444d
+(gdb) x/x 0x0000000000040111d
+0x40111d <main>:	0xb8
+(gdb) x/x 0x040111d
+0x40111d <main>:	0xb8
+(gdb) x/x 0x0401122
+0x401122 <main+5>:	0xbf
+(gdb) break main
+Breakpoint 1 at 0x40111d: file hello.asm, line 65.
+(gdb) run
+Starting program: /home/sironton/MYSPACE/assembly/proj1/hello 
+
+Breakpoint 1, main () at hello.asm:65
+65		mov rax, 1 	; 1 means write
+(gdb) info registers
+rax            0x40111d            4198685
+rbx            0x401150            4198736
+rcx            0x401150            4198736
+rdx            0x7fffffffdf18      140737488346904
+rsi            0x7fffffffdf08      140737488346888
+rdi            0x1                 1
+rbp            0x0                 0x0
+rsp            0x7fffffffde18      0x7fffffffde18
+r8             0x0                 0
+r9             0x7ffff7fe0d50      140737354009936
+r10            0x7                 7
+r11            0x2                 2
+r12            0x401020            4198432
+r13            0x7fffffffdf00      140737488346880
+r14            0x0                 0
+r15            0x0                 0
+rip            0x40111d            0x40111d <main>
+eflags         0x246               [ PF ZF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+(gdb) x/s 0x40111d 
+0x40111d <main>:	"\270\001"
+(gdb) x/s 0x40111d <main> 
+A syntax error in expression, near `'.
+(gdb) x/s 0x40111d
+0x40111d <main>:	"\270\001"
+(gdb) x/c 0x40111d
+0x40111d <main>:	-72 '\270'
+(gdb) x/10s 0x40111d
+0x40111d <main>:	"\270\001"
+0x401120 <main+3>:	""
+0x401121 <main+4>:	""
+0x401122 <main+5>:	"\277\001"
+0x401125 <main+8>:	""
+0x401126 <main+9>:	""
+0x401127 <main+10>:	"H\276\020\021@"
+0x40112d <main+16>:	""
+0x40112e <main+17>:	""
+0x40112f <main+18>:	""
+(gdb) x/10x 0x40111d
+0x40111d <main>:	0xb8	0x01	0x00	0x00	0x00	0xbf	0x01	0x00
+0x401125 <main+8>:	0x00	0x00
+(gdb) step
+66		mov rdi, 1	; 1 = to stdout
+(gdb) i r
+rax            0x1                 1
+rbx            0x401150            4198736
+rcx            0x401150            4198736
+rdx            0x7fffffffdf18      140737488346904
+rsi            0x7fffffffdf08      140737488346888
+rdi            0x1                 1
+rbp            0x0                 0x0
+rsp            0x7fffffffde18      0x7fffffffde18
+r8             0x0                 0
+r9             0x7ffff7fe0d50      140737354009936
+r10            0x7                 7
+r11            0x2                 2
+r12            0x401020            4198432
+r13            0x7fffffffdf00      140737488346880
+r14            0x0                 0
+r15            0x0                 0
+rip            0x401122            0x401122 <main+5>
+eflags         0x246               [ PF ZF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+(gdb) step
+67		mov rsi, msg	; string to display in rsi
+(gdb) r i
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /home/sironton/MYSPACE/assembly/proj1/hello i
+
+Breakpoint 1, main () at hello.asm:65
+65		mov rax, 1 	; 1 means write
+(gdb) i r
+rax            0x40111d            4198685
+rbx            0x401150            4198736
+rcx            0x401150            4198736
+rdx            0x7fffffffdf10      140737488346896
+rsi            0x7fffffffdef8      140737488346872
+rdi            0x2                 2
+rbp            0x0                 0x0
+rsp            0x7fffffffde08      0x7fffffffde08
+r8             0x0                 0
+r9             0x7ffff7fe0d50      140737354009936
+r10            0x7                 7
+r11            0x2                 2
+r12            0x401020            4198432
+r13            0x7fffffffdef0      140737488346864
+r14            0x0                 0
+r15            0x0                 0
+rip            0x40111d            0x40111d <main>
+eflags         0x246               [ PF ZF IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+(gdb) Quit
+(gdb) 
+

@@ -1,0 +1,86 @@
+     1                                  ;;;;;;;;hello.asm;;;;;;;
+     2                                  ; There are three main parts of an assembly program.
+     3                                  
+     5                                  ;//\\//PART ONE\\//\section .data
+     6                                  
+     7                                  ; Here data is initialised/defined.
+     8                                  ;   <var name> <type>      <value>
+     9 00000000 68656C6C6F2C20776F-     	msg	db	"hello, world",0
+     9 00000009 726C6400           
+    10                                  ; Variable names referes to the start address of the
+    11                                  ;variable in memory. 'db' is 8 bits in length, a BYTE.
+    12                                  ;Some DATATYPES are given as
+    13                                  ;-----------------------------
+    14                                  ;| type | bits | name        |
+    15                                  ;| db   | 8    | Byte        |
+    16                                  ;| dw   | 16   | Word        |
+    17                                  ;| dd   | 32   | Double word |
+    18                                  ;| dq   | 64   | Quadword    |
+    19                                  ;-----------------------------
+    20                                  ;The name 'msg' points to 'h' of the 'hello, world' in
+    21                                  ;memory. msg+1 will point to 'e' and similarly. A string
+    22                                  ;is an array of characters.It is convenient ot have a 
+    23                                  ;zero'0' indicating the end of a human readable string.
+    24                                  ;It represents 8 zeros in the memory place('db' is 8 bit).
+    25                                  ; ASCII code for NULL is '0'. A line feed or a new line 
+    26                                  ;has code '10'.
+    27                                  ; Constants can be decleared using the format :
+    28                                  ;         <constant name> equ <value> 
+    29                                  
+    31                                  ;//\\//PART TWO\\//\section .bss
+    32                                  
+    33                                  ; bss stands for Block Started Symbol. Memory space for
+    34                                  ;uninitialised variables is decleared in this section.
+    35                                  ; <var name> <type> <number>
+    36                                  ; Some bss datatypes are 
+    37                                  ;-------------------------------
+    38                                  ;| type   | bits | name        |
+    39                                  ;| resb   | 8    | Byte        |
+    40                                  ;| resw   | 16   | Word        |
+    41                                  ;| resd   | 32   | Double word |
+    42                                  ;| resq   | 64   | Quadword    |
+    43                                  ;-------------------------------
+    44                                  ; for example: dArray resd 20
+    45                                  ; It decleares space for an array of 20 double words.
+    46                                  ; If there is not enough memory for the bss section
+    47                                  ; the program will crash.
+    48                                  
+    50                                  ;//\\//PART THREE\\//\section .text
+    51                                  	global main
+    52                                  main:
+    53                                  ;This 'main:' part is called a label. A colon always
+    54                                  ;accompanies a label without any other instructions.
+    55                                  ; Registers such as rdi, rsi and rax are prepared for
+    56                                  ; outputting a msg on the screen.
+    57                                  ; The system call code '1' is put into register rax.
+    58                                  ; mov makes a copy from source to destination. syntax : 
+    59                                  ; mov destination, source
+    60                                  ; mov register, immediate value
+    61                                  ; mov register, memory
+    62                                  ; mov memory, register
+    63                                  ; BUT 'mov memory, memory' is wrong.
+    64                                  ; 
+    65 0000000D B801000000              	mov rax, 1 	; 1 means write
+    66 00000012 BF01000000              	mov rdi, 1	; 1 = to stdout
+    67 00000017 48BE-                   	mov rsi, msg	; string to display in rsi
+    67 00000019 [0000000000000000] 
+    68                                  ; Now place the msg length in rdx register. Do not count
+    69                                  ; quotes or the last 0.
+    70 00000021 BA0C000000              	mov rdx, 12
+    71                                  ; Then syscall is used to call to functionallity provided
+    72                                  ; by the operating system.
+    73 00000026 0F05                    	syscall
+    74                                  ; To cleanly exit the program, put 60 to rax and 0 to rdi.
+    75 00000028 B83C000000              	mov rax, 60	; 60 = exit
+    76 0000002D BF00000000              	mov rdi, 0 	; 0 = success exit code
+    77 00000032 0F05                    	syscall		; quit
+    78                                  ; The system exits without complaining.
+    79                                  
+    80                                  ; System calls are used to ask the operating system to do
+    81                                  ; some specific actions. Every OS has a different list of
+    82                                  ; system calls. The .lst file will show the relative 
+    83                                  ; address of the code in the leftmost column and will show
+    84                                  ; show the code translated into machine lang in the next.
+    85                                  ; which is HEXADECIMAL. For example 'mov rax' is converted
+    86                                  ; to B8 and 'mov rdi' to BF. Also msg string is converted
+    87                                  ; to ASCII hexadecimal characters. 

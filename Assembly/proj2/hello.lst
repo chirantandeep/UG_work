@@ -1,0 +1,25 @@
+     1                                  ;hello2.asm
+     2                                  section .data
+     3 00000000 48656C6C6F2C20576F-     	msg	db	"Hello, World!",0
+     3 00000009 726C642100         
+     4 0000000E 0A                      	NL	db	0xa ; ASCII code for new line
+     5                                  section .bss
+     6                                  section .text
+     7                                  	global main
+     8                                  main:
+     9 00000000 B801000000              	mov	rax, 1		; instruct rax to write
+    10 00000005 BF01000000              	mov 	rdi, 1		; instruct rdi to output i.e. stdout
+    11 0000000A 48BE-                   	mov 	rsi, msg	; String to display
+    11 0000000C [0000000000000000] 
+    12 00000014 BA0D000000              	mov 	rdx, 13		; length of the msg
+    13 00000019 0F05                    	syscall
+    14 0000001B B801000000              	mov     rax, 1   	; instruct rax to write
+    15 00000020 BF01000000                      mov     rdi, 1   	; instruct rdi to output i.e. stdout
+    16 00000025 48BE-                           mov     rsi, NL		; Display a new line
+    16 00000027 [0E00000000000000] 
+    17 0000002F BA01000000                      mov     rdx, 1   	; length of the msg
+    18 00000034 0F05                    	syscall
+    19 00000036 B83C000000              	mov 	rax, 60		; Quit instruction
+    20 0000003B BF00000000              	mov 	rdi, 0		; Success exit code
+    21 00000040 0F05                    	syscall
+    22                                  
